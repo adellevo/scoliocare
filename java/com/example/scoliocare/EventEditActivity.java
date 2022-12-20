@@ -1,6 +1,7 @@
 package com.example.scoliocare;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ public class EventEditActivity extends AppCompatActivity {
     private EditText event_name;
     private TextView event_date, event_time;
     private Button save_button;
+    private String date, time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +23,8 @@ public class EventEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_edit);
         initWidgets();
 
-        String date = CalendarUtils.formattedDate(CalendarUtils.selectedDate);
-        String time = CalendarUtils.formattedTime(LocalTime.now());
-
         event_date.setText("Date: " + date);
         event_time.setText("Time: " + time);
-
-        saveEventAction(date, time);
     }
 
     private void initWidgets() {
@@ -35,18 +32,19 @@ public class EventEditActivity extends AppCompatActivity {
         event_date = findViewById(R.id.eventDateTV);
         event_time = findViewById(R.id.eventTimeTV);
         save_button = findViewById(R.id.save_btn);
+        date = CalendarUtils.formattedDate(CalendarUtils.selectedDate);
+        time = CalendarUtils.formattedTime(LocalTime.now());
     }
 
-    public void saveEventAction(String date, String time) {
+    public void saveEventAction(View v) {
         DAOEvent dao = new DAOEvent();
-        save_button.setOnClickListener(v -> {
-            Event newEvent = new Event(event_name.getText().toString(), date, time);
-            dao.add(newEvent).addOnSuccessListener(suc -> {
-                Toast.makeText(this, "Record's inserted", Toast.LENGTH_SHORT).show();
-                finish();
-            }).addOnFailureListener(er -> {
-                Toast.makeText(this, er.getMessage(), Toast.LENGTH_SHORT).show();
-            });
+        Event newEvent = new Event(event_name.getText().toString(), date, time);
+
+        dao.add(newEvent).addOnSuccessListener(suc -> {
+            Toast.makeText(this, "Record's inserted", Toast.LENGTH_SHORT).show();
+            finish();
+        }).addOnFailureListener(er -> {
+            Toast.makeText(this, er.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
 }

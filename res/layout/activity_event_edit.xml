@@ -57,6 +57,7 @@
         android:textStyle="bold"
         android:layout_gravity="center"
         android:textSize="20sp"
-        android:id="@+id/save_btn" />
+        android:id="@+id/save_btn"
+        android:onClick="saveEventAction" />
 
 </LinearLayout>
