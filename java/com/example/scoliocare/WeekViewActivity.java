@@ -20,6 +20,8 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
+//    private DAOEvent dao;
+//    EventAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,28 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
         setContentView(R.layout.activity_week_view);
         initWidgets();
         setWeekView();
+//        adapter = new EventAdapter(this);
+//        loadData();
     }
+
+//    private void loadData() {
+//        dao.get().addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                ArrayList<Event> events = new ArrayList<>();
+//                for (DataSnapshot data : snapshot.getChildren()) {
+//                    Event event = data.getValue(Event.class);
+//                    events.add(event);
+//                }
+//                adap
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
     private void initWidgets() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
@@ -45,7 +68,6 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
         calendarRecyclerView.setAdapter(calendarAdapter);
         setEventAdapter();
     }
-
 
     public void previousWeekAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1);

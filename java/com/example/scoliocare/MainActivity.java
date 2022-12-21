@@ -6,6 +6,7 @@ import static com.example.scoliocare.CalendarUtils.monthYearFromDate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,12 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         initWidgets();
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
+        
+        Button btn_open = findViewById(R.id.btn_open);
+        btn_open.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RVActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initWidgets() {

@@ -3,6 +3,7 @@ package com.example.scoliocare;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.HashMap;
 
@@ -24,5 +25,9 @@ public class DAOEvent {
 
     public Task<Void> remove(String key) {
         return databaseReference.child(key).removeValue();
+    }
+
+    public Query get() {
+        return databaseReference.orderByKey();
     }
 }
