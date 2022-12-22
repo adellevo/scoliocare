@@ -5,7 +5,6 @@ import static com.example.scoliocare.CalendarUtils.monthYearFromDate;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,7 +30,7 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     private boolean firstLoad = true;
     static DAOEvent dao = new DAOEvent();
 
-    ArrayList<Event> events = new ArrayList<>();
+    ArrayList<Event> events;
     EventAdapter eventAdapter;
 
     @Override
@@ -40,16 +39,12 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
         setContentView(R.layout.activity_week_view);
         initWidgets();
         setWeekView();
-//        setEventAdapter();
     }
 
     private void initWidgets() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYearText = findViewById(R.id.monthYearTV);
         eventListView = findViewById(R.id.eventListView);
-
-        eventAdapter = new EventAdapter(this, events);
-        eventListView.setAdapter(eventAdapter);
     }
 
     private void setWeekView() {
@@ -86,26 +81,15 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     }
 
     private void setEventAdapter() {
-//        events = new ArrayList<>();
-//        eventAdapter = new EventAdapter(this, events);
-//        eventListView.setAdapter(eventAdapter);
+        events = new ArrayList<>();
+        eventAdapter = new EventAdapter(this, events);
+        eventListView.setAdapter(eventAdapter);
 
         dao.get().addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                Event newEvent = snapshot.getValue(Event.class);
-//                eventAdapter.add(newEvent);
-//                Log.d("--->", String.valueOf(events));
-
                 Event newEvent = snapshot.getValue(Event.class);
-//                ArrayList<Event> temp = new ArrayList<>();
-//                temp.addAll(EventAdapter);
-//                eventAdapter.clear();
-//                temp.addAll(events);
                 eventAdapter.add(newEvent);
-                Log.d("--->", String.valueOf(events));
-
-//                eventAdapter.notifyDataSetChanged();
             }
 
             @Override
