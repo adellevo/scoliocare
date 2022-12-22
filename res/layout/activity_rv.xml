@@ -3,20 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".RVActivity"
     android:orientation="vertical">
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Weekly"
-        android:textColor="@color/blue"
-        android:background="@null"
-        android:textStyle="bold"
-        android:onClick="weeklyAction"
-        android:textSize="20sp"
-        android:id="@+id/btn_open" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +21,7 @@
             android:textColor="@color/black"
             android:background="@null"
             android:textStyle="bold"
-            android:onClick="previousMonthAction"
+            android:onClick="previousWeekAction"
             android:textSize="20sp" />
 
         <TextView
@@ -53,7 +41,7 @@
             android:textColor="@color/black"
             android:background="@null"
             android:textStyle="bold"
-            android:onClick="nextMonthAction"
+            android:onClick="nextWeekAction"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -66,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/sunday_label"
+            android:text="SUN"
             android:textColor="@color/gray"
             android:textAlignment="center"
             android:textSize="16sp" />
@@ -75,7 +63,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/monday_label"
+            android:text="MON"
             android:textColor="@color/gray"
             android:textAlignment="center"
             android:textSize="16sp" />
@@ -84,7 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/tuesday_label"
+            android:text="TUE"
             android:textColor="@color/gray"
             android:textAlignment="center"
             android:textSize="16sp" />
@@ -93,7 +81,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/wednesday_label"
+            android:text="WED"
             android:textColor="@color/gray"
             android:textAlignment="center"
             android:textSize="16sp" />
@@ -102,7 +90,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/thursday_label"
+            android:text="THU"
             android:textColor="@color/gray"
             android:textAlignment="center"
             android:textSize="16sp" />
@@ -111,7 +99,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/friday_label"
+            android:text="FRI"
             android:textColor="@color/gray"
             android:textAlignment="center"
             android:textSize="16sp" />
@@ -120,7 +108,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/saturday_label"
+            android:text="SAT"
             android:textColor="@color/gray"
             android:textAlignment="center"
             android:textSize="16sp" />
@@ -129,6 +117,28 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Event"
+        android:textColor="@color/black"
+        android:background="@null"
+        android:textStyle="bold"
+        android:onClick="newEventAction"
+        android:layout_gravity="center"
+        android:textSize="20sp" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swipe">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rv" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

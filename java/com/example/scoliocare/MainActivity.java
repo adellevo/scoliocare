@@ -37,6 +37,17 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
         ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
 
+//        calendarRecyclerView.setOnClickListener(v -> {
+//            Intent intent = new Intent(MainActivity.this, RVActivity.class);
+//            startActivity(intent);
+//        });
+
+//        Button btn_open = findViewById(R.id.btn_open);
+//        btn_open.setOnClickListener(v -> {
+//            Intent intent = new Intent(MainActivity.this, RVActivity.class);
+//            startActivity(intent);
+//        });
+
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);

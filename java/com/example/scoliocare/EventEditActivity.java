@@ -37,11 +37,12 @@ public class EventEditActivity extends AppCompatActivity {
     }
 
     public void saveEventAction(View v) {
-        DAOEvent dao = new DAOEvent();
+//        DAOEvent dao = new DAOEvent();
         Event newEvent = new Event(event_name.getText().toString(), date, time);
 
-        dao.add(newEvent).addOnSuccessListener(suc -> {
+        WeekViewActivity.dao.add(newEvent).addOnSuccessListener(suc -> {
             Toast.makeText(this, "Record's inserted", Toast.LENGTH_SHORT).show();
+//            Event.eventsList.add(newEvent);
             finish();
         }).addOnFailureListener(er -> {
             Toast.makeText(this, er.getMessage(), Toast.LENGTH_SHORT).show();
