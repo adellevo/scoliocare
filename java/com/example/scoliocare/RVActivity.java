@@ -27,10 +27,12 @@ public class RVActivity extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.swipe);
         recyclerView = findViewById(R.id.rv);
         recyclerView.setHasFixedSize(true);
+
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
         adapter = new RVAdapter(this);
         recyclerView.setAdapter(adapter);
+
         dao = new DAOEvent();
         loadData();
     }

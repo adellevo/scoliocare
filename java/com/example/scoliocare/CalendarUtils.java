@@ -6,9 +6,20 @@ import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CalendarUtils {
     public static LocalDate selectedDate;
+
+    public static ArrayList<Event> eventsForDate(ArrayList<Event> events) {
+        List<Event> targetEvents = events
+                .stream()
+                .filter(event -> event.getDate().equals(formattedDate(selectedDate)))
+                .collect(Collectors.toList());
+
+        return (ArrayList<Event>) targetEvents;
+    }
 
     public static String formattedDate(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");

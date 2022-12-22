@@ -28,6 +28,6 @@ public class DAOEvent {
     }
 
     public Query get() {
-        return databaseReference.orderByKey();
+        return databaseReference.orderByChild("date").equalTo(CalendarUtils.formattedDate(CalendarUtils.selectedDate));
     }
 }

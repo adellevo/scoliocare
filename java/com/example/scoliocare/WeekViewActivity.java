@@ -5,13 +5,20 @@ import static com.example.scoliocare.CalendarUtils.monthYearFromDate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,8 +27,12 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
-//    private DAOEvent dao;
-//    EventAdapter adapter;
+
+    private boolean firstLoad = true;
+    static DAOEvent dao = new DAOEvent();
+
+    ArrayList<Event> events = new ArrayList<>();
+    EventAdapter eventAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,39 +40,21 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
         setContentView(R.layout.activity_week_view);
         initWidgets();
         setWeekView();
-//        adapter = new EventAdapter(this);
-//        loadData();
+//        setEventAdapter();
     }
-
-//    private void loadData() {
-//        dao.get().addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                ArrayList<Event> events = new ArrayList<>();
-//                for (DataSnapshot data : snapshot.getChildren()) {
-//                    Event event = data.getValue(Event.class);
-//                    events.add(event);
-//                }
-//                adap
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
 
     private void initWidgets() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYearText = findViewById(R.id.monthYearTV);
         eventListView = findViewById(R.id.eventListView);
+
+        eventAdapter = new EventAdapter(this, events);
+        eventListView.setAdapter(eventAdapter);
     }
 
     private void setWeekView() {
         monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
         ArrayList<LocalDate> days = daysInWeekArray(CalendarUtils.selectedDate);
-
         CalendarAdapter calendarAdapter = new CalendarAdapter(days, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
@@ -82,6 +75,7 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     @Override
     public void onItemClick(int position, LocalDate date) {
         CalendarUtils.selectedDate = date;
+        eventAdapter.clear();
         setWeekView();
     }
 
@@ -92,9 +86,48 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     }
 
     private void setEventAdapter() {
-        ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
-        EventAdapter eventAdapter = new EventAdapter(getApplicationContext(), dailyEvents);
-        eventListView.setAdapter(eventAdapter);
+//        events = new ArrayList<>();
+//        eventAdapter = new EventAdapter(this, events);
+//        eventListView.setAdapter(eventAdapter);
+
+        dao.get().addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                Event newEvent = snapshot.getValue(Event.class);
+//                eventAdapter.add(newEvent);
+//                Log.d("--->", String.valueOf(events));
+
+                Event newEvent = snapshot.getValue(Event.class);
+//                ArrayList<Event> temp = new ArrayList<>();
+//                temp.addAll(EventAdapter);
+//                eventAdapter.clear();
+//                temp.addAll(events);
+                eventAdapter.add(newEvent);
+                Log.d("--->", String.valueOf(events));
+
+//                eventAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void newEventAction(View view) {
